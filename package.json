@@ -8,7 +8,9 @@
     "build": "npm run clean & webpack --progress",
     "dev": "npm run clean & cross-env NODE_ENV=development webpack --progress",
     "clean": "rimraf dist",
-    "extract": "rimraf node_modules & unzip node_modules"
+    "init:all": "npm run init:hooks & npm run init:node_modules",
+    "init:node_modules": "rimraf node_modules & unzip node_modules",
+    "init:hooks": "ncp ./hooks ./.git/hooks"
   },
   "author": "Hilda",
   "license": "ISC",
