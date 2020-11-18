@@ -1,32 +1,45 @@
-const path = require('path');
+const path = require("path");
+const WebpackShellPlugin = require("webpack-shell-plugin");
+const nodeExternals = require("webpack-node-externals");
 
-module.exports = {
-    entry: './src/index.ts',
-    mode: "production",
-    target: 'node',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js'
+const { NODE_ENV = "production" } = process.env;
+
+const webpackConfig = {
+  entry: "./src/index.ts",
+  mode: NODE_ENV,
+  target: "node",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "index.js",
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+    alias: {
+      "@src": path.resolve(__dirname, "src"),
     },
-    resolve: {
-        extensions: ['.ts', '.js'],
-        alias: {
-            '@src': path.resolve(__dirname, 'src')
-        }
-    },
-    module: {
-        rules: [
-            {
-                test: /\.ts$/,
-                use: [
-                    'ts-loader',
-                ]
-            }
-        ]
-    },
-    ignoreWarnings: [
-        {
-            module: /^(?!CriticalDependenciesWarnings$)/
-        }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: ["ts-loader"],
+      },
     ],
+  },
+  watch: false,
+  externals: [],
+  plugins: [],
+  stats: {
+    warningsFilter: /^(?!CriticalDependenciesWarnings$)/,
+  },
 };
+
+if (NODE_ENV === "development") {
+  webpackConfig.watch = true;
+  webpackConfig.externals.push(nodeExternals());
+  webpackConfig.plugins.push(
+    new WebpackShellPlugin({ onBuildEnd: ["nodemon dist/index.js"] })
+  );
+}
+
+module.exports = webpackConfig;
