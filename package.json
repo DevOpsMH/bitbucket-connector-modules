@@ -8,7 +8,9 @@
     "build": "npm run clean & webpack --progress",
     "dev": "npm run clean & cross-env NODE_ENV=development webpack --progress",
     "clean": "rimraf dist",
-    "extract": "rimraf node_modules & unzip node_modules"
+    "init:all": "npm run init:hooks & npm run init:node_modules",
+    "init:node_modules": "rimraf node_modules & unzip node_modules",
+    "init:hooks": "ncp ./hooks ./.git/hooks"
   },
   "author": "Hilda",
   "license": "ISC",
@@ -28,13 +30,22 @@
     "@types/node": "14.14.6",
     "builtin-modules": "3.1.0",
     "cross-env": "7.0.2",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
     "nodemon": "2.0.6",
     "prettier": "2.1.2",
-    "rimraf": "3.0.2",
     "ts-loader": "8.0.9",
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
     "webpack-node-externals": "2.5.2",
     "webpack-shell-plugin": "0.5.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,md}": "prettier --write"
   }
 }
