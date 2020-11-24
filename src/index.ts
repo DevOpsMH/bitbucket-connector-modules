@@ -9,8 +9,7 @@ const {PORT = 3000} = process.env;
 app.get('/', (req: Request, res: Response) => {
   gavno.get({url: ''}, () => {});
 
-
-  console.log('k');
+  console.log('kk');
   res.send({
     message: helloWorld(),
   });
