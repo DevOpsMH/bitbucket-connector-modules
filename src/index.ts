@@ -10,6 +10,7 @@ app.get('/', (req: Request, res: Response) => {
   gavno.get({url: ''}, () => {});
 
 
+  console.log('k');
   res.send({
     message: helloWorld(),
   });
