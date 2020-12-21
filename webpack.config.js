@@ -1,8 +1,8 @@
 const path = require("path");
-const WebpackShellPlugin = require("webpack-shell-plugin");
+const NodemonPlugin = require('nodemon-webpack-plugin');
 const nodeExternals = require("webpack-node-externals");
 
-const { NODE_ENV = "production" } = process.env;
+const {NODE_ENV = "production"} = process.env;
 
 const webpackConfig = {
   entry: "./src/index.ts",
@@ -38,7 +38,7 @@ if (NODE_ENV === "development") {
   webpackConfig.watch = true;
   webpackConfig.externals.push(nodeExternals());
   webpackConfig.plugins.push(
-    new WebpackShellPlugin({ onBuildEnd: ["nodemon dist/index.js"] })
+    new NodemonPlugin(),
   );
 }
 
